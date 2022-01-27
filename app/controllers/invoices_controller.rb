@@ -40,7 +40,7 @@ class InvoicesController < WhoAmIController
     end
 
     # business must own this customer
-    if !resolve_business.customers.map(&:id).include?(params[:customer_id])
+    if !resolve_business.customers.map(&:id).include?(params[:customer_id].to_i)
       raise "This customer needs to be YOUR customer"
     end
 

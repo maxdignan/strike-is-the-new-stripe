@@ -33,7 +33,11 @@ http POST https://desolate-mesa-68729.herokuapp.com/invoices business_secret='YO
 
  - You'll get back a uuid. This is the invoiceId from Strike. Keep this handy.
 
- ### Make a Quote
+### Make a Quote
 
+<code>
+http POST https://desolate-mesa-68729.herokuapp.com/invoice-quote business_secret='YOUR_BUSINESS_SECRET_HERE' uuid='UUID_OR_INVOICE_ID_OF_INVOICE_OF_INTEREST' --json
+</code>
 
+ - You'll get back the lnInvoice and onchain address info, if applicable. You'll also get the expiration info for the quote.
  

@@ -23,27 +23,6 @@ class StrikeService
   def self.quote_invoice(invoice)
     # /v1/invoices/:invoiceId/quote
 
-    puts "route!!:"
-    puts "#{BASE_URL}/invoices/#{invoice.uuid}/quote"
-
-    puts "raw get:"
-    puts HTTParty.post(
-      "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
-      { headers: auth_headers },
-    )
-
-    puts "raw body get:"
-    puts HTTParty.post(
-      "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
-      { headers: auth_headers },
-    )
-
-    puts "json body get:"
-    puts JSON.parse(HTTParty.post(
-      "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
-      { headers: auth_headers },
-    ).body)
-
     JSON.parse(HTTParty.post(
       "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
       { headers: auth_headers },

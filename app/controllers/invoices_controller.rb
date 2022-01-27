@@ -28,6 +28,12 @@ class InvoicesController < WhoAmIController
       @invoice = Invoice.find_by(uuid: params[:uuid], business_id: resolve_business.id)
     elsif customer?
       @invoice = Invoice.find_by(uuid: params[:uuid], customer_id: resolve_customer.id)
+    else
+      raise "You need to be logged in"
+    end
+
+    if @invoice.nil?
+      raise "You need to own this invoice to quote on it"
     end
 
     render json: StrikeService.quote_invoice(@invoice)

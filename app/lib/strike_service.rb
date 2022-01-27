@@ -20,7 +20,7 @@ class StrikeService
     ).body)
   end
 
-  def quote_invoice(invoice)
+  def self.quote_invoice(invoice)
     # /v1/invoices/:invoiceId/quote
 
     JSON.parse(HTTParty.get(

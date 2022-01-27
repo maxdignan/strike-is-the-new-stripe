@@ -39,6 +39,11 @@ class InvoicesController < WhoAmIController
       raise "Please login as a business"
     end
 
+    # business must own this customer
+    if !resolve_business.customers.map(&:id).include?(params[:customer_id])
+      raise "This customer needs to be YOUR customer"
+    end
+
     invoice_from_strike = StrikeService.generate_invoice({
       description: params[:description],
       amount: {
@@ -52,7 +57,7 @@ class InvoicesController < WhoAmIController
     @invoice = Invoice.new(
       uuid: invoice_from_strike["invoiceId"],
       business_id: resolve_business.id,
-      customer_id: params[:customer_id]
+      customer_id: params[:customer_id],
     )
 
     if @invoice.save

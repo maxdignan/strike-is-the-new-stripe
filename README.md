@@ -1,24 +1,36 @@
-# README
+## Strike is the new Stripe
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Haven't you heard?
 
-Things you may want to cover:
+Get basic payment processing features with no long sign up and no fees.
 
-* Ruby version
+## Basic Usage
 
-* System dependencies
+### Make your business
 
-* Configuration
+<code>
+http POST https://desolate-mesa-68729.herokuapp.com/businesses  name='Max Energy' --json
+</code>
 
-* Database creation
+You'll get back your `business_secret`. **Keep this secret**.
 
-* Database initialization
+ - Include your own strike handle wip
 
-* How to run the test suite
+### Make your first customer
 
-* Services (job queues, cache servers, search engines, etc.)
+<code>
+http POST https://desolate-mesa-68729.herokuapp.com/customers  name='Max Energy' --json
+</code>
 
-* Deployment instructions
+ - You'll get back your customer's secret. This isn't as secret, but keep it between just you and your customer.
+ - You'll also get back the customer's id. Keep this around so you can send them an invoice. These simply auto-increment, but invoice creation only works when it's YOUR customer.
 
-* ...
+### Make Your First Invoice for that Customer
+
+<code>
+http POST https://desolate-mesa-68729.herokuapp.com/invoices business_secret='YOUR_BUSINESS_SECRET_HERE' description='Pay your first invoice pls' amount=9.10 currency='USD' customer_id=THE_ID_RETURNED_FOR_THAT_CUSTOMER --json
+</code>
+
+ - You'll get back a uuid. This is the invoiceId from Strike. Keep this handy.
+
+ ### Make a Quote

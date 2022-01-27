@@ -47,6 +47,8 @@ class InvoicesController < WhoAmIController
       }
     })
 
+    puts invoice_from_strike
+
     @invoice = Invoice.new(
       uuid: invoice_from_strike["invoiceId"],
       business_id: resolve_business.id,

@@ -27,24 +27,24 @@ class StrikeService
     puts "#{BASE_URL}/invoices/#{invoice.uuid}/quote"
 
     puts "raw get:"
-    puts HTTParty.get(
+    puts HTTParty.post(
       "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
       { headers: auth_headers },
     )
 
     puts "raw body get:"
-    puts HTTParty.get(
+    puts HTTParty.post(
       "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
       { headers: auth_headers },
     )
 
     puts "json body get:"
-    puts JSON.parse(HTTParty.get(
+    puts JSON.parse(HTTParty.post(
       "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
       { headers: auth_headers },
     ).body)
 
-    JSON.parse(HTTParty.get(
+    JSON.parse(HTTParty.post(
       "#{BASE_URL}/invoices/#{invoice.uuid}/quote",
       { headers: auth_headers },
     ).body)

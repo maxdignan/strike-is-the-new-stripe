@@ -1,5 +1,5 @@
 class BusinessesController < WhoAmIController
-  def show
+  def index
     @business = { error: "please login" }
 
     if business?

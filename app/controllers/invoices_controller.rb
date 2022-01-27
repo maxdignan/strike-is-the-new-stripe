@@ -39,7 +39,7 @@ class InvoicesController < WhoAmIController
       raise "Please login as a business"
     end
 
-    invoice_from_strike = StrikeService.new.generate_invoice({
+    invoice_from_strike = StrikeService.generate_invoice({
       description: params[:description],
       amount: {
         amount: params[:amount],

@@ -50,7 +50,7 @@ class InvoicesController < WhoAmIController
       raise "This customer needs to be YOUR customer"
     end
 
-    invoice_from_strike = StrikeService.generate_invoice(business.strike_user_handle, {
+    invoice_from_strike = StrikeService.generate_invoice(resolve_business.strike_user_handle, {
       description: params[:description],
       amount: {
         amount: params[:amount],

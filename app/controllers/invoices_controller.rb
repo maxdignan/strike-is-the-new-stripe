@@ -20,7 +20,11 @@ class InvoicesController < WhoAmIController
       @invoice = Invoice.find_by(uuid: params[:uuid], customer_id: resolve_customer.id)
     end
 
-    render json: @invoice
+    if @invoice.nil?
+      raise "You need to be the business of customer of that invoice to see it"
+    end
+
+    render json: StrikeService.get_invoice_by_uuid(@invoice.uuid)
   end
 
   def quote

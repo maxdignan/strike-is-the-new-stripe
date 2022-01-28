@@ -15,7 +15,7 @@ You'll get back your `business_secret`. **Keep this secret**.
 
 ### Make your first customer
 <code>
-http POST https://desolate-mesa-68729.herokuapp.com/customers business_secret='YOUR_BUSINESS_SECRET_HERE' name='Max Energy' --json
+http POST https://desolate-mesa-68729.herokuapp.com/customers business_secret='YOUR_BUSINESS_SECRET_HERE' name='Max Energy Buyer' --json
 </code>
 
  - You'll get back your customer's secret. This isn't as secret, but keep it between just you and your customer.

@@ -11,7 +11,11 @@ class BusinessesController < WhoAmIController
 
   # POST /businesses
   def create
-    @business = Business.new(business_params.merge({secret: SecureRandom.uuid }))
+    @business = Business.new(business_params.merge({ secret: SecureRandom.uuid }))
+
+    puts @business
+    puts business_params
+    puts params
 
     if @business.save
       render json: @business, status: :created, location: @business
@@ -23,6 +27,6 @@ class BusinessesController < WhoAmIController
   private
     # Only allow a trusted parameter "white list" through.
     def business_params
-      params.require(:business).permit(:name)
+      params.require(:business).permit(:name, :strike_user_handle)
     end
 end

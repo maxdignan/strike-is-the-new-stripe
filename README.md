@@ -9,12 +9,10 @@ Get basic payment processing features with no long sign up and no fees.
 ### Make your business
 
 <code>
-http POST https://desolate-mesa-68729.herokuapp.com/businesses  name='Max Energy' --json
+http POST https://desolate-mesa-68729.herokuapp.com/businesses  name='Max Energy' strike_user_handle='maxdignan' --json
 </code>
 
 You'll get back your `business_secret`. **Keep this secret**.
-
- - Include your own strike handle wip
 
 ### Make your first customer
 

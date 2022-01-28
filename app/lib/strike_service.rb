@@ -2,12 +2,12 @@ class StrikeService
   BASE_URL = "https://api.strike.me/v1"
 
   # contains amount, currency, name of customer
-  def self.generate_invoice(invoice_details)
+  def self.generate_invoice(strike_user_handle, invoice_details)
     invoice_details = invoice_details.merge({
       correlationId: SecureRandom.uuid,
     })
 
-    JSON.parse(HTTParty.post("#{BASE_URL}/invoices",
+    JSON.parse(HTTParty.post("#{BASE_URL}/invoices/handle/#{strike_user_handle}",
       body: invoice_details.to_json,
       headers: auth_headers,
     ).body)

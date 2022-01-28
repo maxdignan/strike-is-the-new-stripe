@@ -50,3 +50,13 @@ http GET https://desolate-mesa-68729.herokuapp.com/invoices business_secret='YOU
 <code>
 http GET https://desolate-mesa-68729.herokuapp.com/invoices customer_secret='YOUR_CUSTOMER_SECRET_HERE'
 </code>
+
+### Get Invoice Details by UUID
+Use the uuid of an invoice to get more info about it. Works the same as above. Send the business or the customer secret.
+
+<code>
+http GET https://desolate-mesa-68729.herokuapp.com/invoices/i uuid='dc186f4e-0958-431e-aea0-e3b3cf2b714e' business_secret='c920ed94-014b-406e-a498-d67ca80d5e34'
+</code>
+
+### Get Invoice Details in Bulk
+WIP

@@ -5,8 +5,10 @@ class InvoicesController < WhoAmIController
 
     if business?
       @invoices = resolve_business.invoices
+      @invoices = StrikeService.index_with_filter_for_invoice_id(@invoices.map(&:uuid))
     elsif customer?
       @invoices = resolve_customer.invoices
+      @invoices = StrikeService.index_with_filter_for_invoice_id(@invoices.map(&:uuid))
     end
 
     render json: @invoices

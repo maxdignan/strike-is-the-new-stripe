@@ -29,6 +29,23 @@ class StrikeService
     ).body)
   end
 
+  def index_with_filter_for_invoice_id(invoice_ids)
+    if invoice_ids.count < 1
+      return []
+    end
+
+    filter_info = invoice_ids.map do |id|
+      "invoiceId eq #{id}"
+    end.join(" or ")
+
+    filter_info = "(#{filter_info})"
+
+    JSON.parse(HTTParty.get(
+      "#{BASE_URL}/invoices/?$filter=#{filter_info}",
+      { headers: auth_headers },
+    ).body)
+  end
+
   def self.auth_headers()
     {
       "Authorization": "Bearer #{ENV["STRIKE_API_KEY"]}",

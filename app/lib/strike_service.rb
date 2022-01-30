@@ -29,10 +29,12 @@ class StrikeService
     ).body)
   end
 
-  def index_with_filter_for_invoice_id(invoice_ids)
+  def self.index_with_filter_for_invoice_id(invoice_ids)
     if invoice_ids.count < 1
       return []
     end
+
+    pp invoice_ids
 
     filter_info = invoice_ids.map do |id|
       "invoiceId eq #{id}"

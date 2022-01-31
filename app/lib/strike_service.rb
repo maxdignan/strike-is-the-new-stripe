@@ -42,10 +42,19 @@ class StrikeService
 
     filter_info = "(#{filter_info})"
 
-    JSON.parse(HTTParty.get(
+    pp "in index"
+    pp filter_info
+    req = HTTParty.get(
       "#{BASE_URL}/invoices/?$filter=#{filter_info}",
       { headers: auth_headers },
-    ).body)
+    )
+
+    pp req
+
+    req_body = req.body
+
+    pp req_body
+    JSON.parse(req_body)
   end
 
   def self.auth_headers()

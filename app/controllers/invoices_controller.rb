@@ -68,16 +68,20 @@ class InvoicesController < WhoAmIController
 
     puts invoice_from_strike
 
-    @invoice = Invoice.new(
-      uuid: invoice_from_strike["invoiceId"],
-      business_id: resolve_business.id,
-      customer_id: params[:customer_id],
-    )
+    if invoice_from_strike.present? && invoice_from_strike["invoiceId"].present?
+      @invoice = Invoice.new(
+        uuid: invoice_from_strike["invoiceId"],
+        business_id: resolve_business.id,
+        customer_id: params[:customer_id],
+      )
 
-    if @invoice.save
-      render json: @invoice, status: :created, location: @invoice
+      if @invoice.save
+        render json: @invoice, status: :created, location: @invoice
+      else
+        render json: @invoice.errors, status: :unprocessable_entity
+      end
     else
-      render json: @invoice.errors, status: :unprocessable_entity
+      render json: ["Error from strike"], status: :unprocessable_entity
     end
   end
 end

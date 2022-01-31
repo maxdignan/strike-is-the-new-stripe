@@ -36,6 +36,11 @@ class StrikeService
 
     pp invoice_ids
 
+    invoice_ids = invoice_ids.first(10)
+
+    pp "post invoice_ids"
+    pp invoice_ids
+
     filter_info = invoice_ids.map do |id|
       "invoiceId eq #{id}"
     end.join(" or ")
@@ -54,7 +59,12 @@ class StrikeService
     req_body = req.body
 
     pp req_body
-    JSON.parse(req_body)
+    json = JSON.parse(req_body)
+
+    pp "json"
+    pp json
+
+    json
   end
 
   def self.auth_headers()

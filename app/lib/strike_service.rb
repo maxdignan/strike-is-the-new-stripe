@@ -36,35 +36,41 @@ class StrikeService
 
     pp invoice_ids
 
-    invoice_ids = invoice_ids.first(10)
+    output_invoices = []
 
-    pp "post invoice_ids"
-    pp invoice_ids
+    while invoice_ids.count > 0
+      i_ids = invoice_ids.pop(10)
 
-    filter_info = invoice_ids.map do |id|
-      "invoiceId eq #{id}"
-    end.join(" or ")
+      pp "post i_ids"
+      pp i_ids
 
-    filter_info = "(#{filter_info})"
+      filter_info = i_ids.map do |id|
+        "invoiceId eq #{id}"
+      end.join(" or ")
 
-    pp "in index"
-    pp filter_info
-    req = HTTParty.get(
-      "#{BASE_URL}/invoices/?$filter=#{filter_info}",
-      { headers: auth_headers },
-    )
+      filter_info = "(#{filter_info})"
 
-    pp req
+      pp "in index"
+      pp filter_info
+      req = HTTParty.get(
+        "#{BASE_URL}/invoices/?$filter=#{filter_info}",
+        { headers: auth_headers },
+      )
 
-    req_body = req.body
+      pp req
 
-    pp req_body
-    json = JSON.parse(req_body)
+      req_body = req.body
 
-    pp "json"
-    pp json
+      pp req_body
+      json = JSON.parse(req_body)
 
-    json
+      pp "json"
+      pp json
+
+      output_invoices = output_invoices + json["items"]
+    end
+
+    output_invoices
   end
 
   def self.auth_headers()

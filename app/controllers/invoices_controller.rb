@@ -84,4 +84,32 @@ class InvoicesController < WhoAmIController
       render json: ["Error from strike"], status: :unprocessable_entity
     end
   end
+
+  def get_some_unpaid_invoices
+    if !business?
+      raise "Please login as business"
+    end
+
+    customer = Customer.find_by_id(params[:customer_id])
+
+    if customer.business.id != resolve_business.id
+      raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
+    end
+
+    render json: customer.invoices.order("created_at DESC").limit(10)
+  end
+
+  def get_last_invoice
+    if !business?
+      raise "Please login as business"
+    end
+
+    customer = Customer.find_by_id(params[:customer_id])
+
+    if customer.business.id != resolve_business.id
+      raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
+    end
+
+    render json: customer.invoices.order("created_at DESC").last
+  end
 end

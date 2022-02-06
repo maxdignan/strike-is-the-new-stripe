@@ -6,5 +6,5 @@ Rails.application.routes.draw do
 
   post "/invoice-quote", to: "invoices#quote"
   get  "/get_some_unpaid_invoices", to: "invoices#get_some_unpaid_invoices"
-  get  "/get_last_invoice", to: "invoices#get_last_invoices"
+  get  "/get_last_invoice", to: "invoices#get_last_invoice"
 end

@@ -29,7 +29,7 @@ class StrikeService
     ).body)
   end
 
-  def self.index_with_filter_for_invoice_id(invoice_ids)
+  def self.index_with_filter_for_invoice_id(invoice_ids, only_unpaid = false)
     if invoice_ids.count < 1
       return []
     end
@@ -48,7 +48,11 @@ class StrikeService
         "invoiceId eq #{id}"
       end.join(" or ")
 
-      filter_info = "(#{filter_info})"
+      if only_unpaid
+        filter_info = "(state eq 'UNPAID' and #{filter_info})"
+      else
+        filter_info = "(#{filter_info})"
+      end
 
       pp "in index"
       pp filter_info

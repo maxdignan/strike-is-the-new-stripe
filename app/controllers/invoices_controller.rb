@@ -96,7 +96,15 @@ class InvoicesController < WhoAmIController
       raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
     end
 
-    render json: customer.invoices.order("created_at DESC").limit(10)
+    @invoices = customer.invoices
+
+    @invoices = StrikeService
+      .index_with_filter_for_invoice_id(@invoices.map(&:uuid), true)
+      .sort_by{|inv| inv["created"]}
+      .reverse
+      .take(10)
+
+    render json: @invoices
   end
 
   def get_last_invoice
@@ -110,6 +118,13 @@ class InvoicesController < WhoAmIController
       raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
     end
 
-    render json: customer.invoices.order("created_at DESC").last
+    @invoices = customer.invoices
+
+    @invoice = StrikeService
+      .index_with_filter_for_invoice_id(@invoices.map(&:uuid), true)
+      .sort_by{|inv| inv["created"]}
+      .last
+
+    render json: @invoice
   end
 end

@@ -86,17 +86,19 @@ class InvoicesController < WhoAmIController
   end
 
   def get_some_unpaid_invoices
-    if !business?
-      raise "Please login as business"
+    if business?
+      @customer = Customer.find_by_id(params[:customer_id])
+
+      if @customer.business.id != resolve_business.id
+        raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
+      end
+    elsif customer?
+      @customer = resolve_customer
+    else
+      raise "Please login as business or customer"
     end
 
-    customer = Customer.find_by_id(params[:customer_id])
-
-    if customer.business.id != resolve_business.id
-      raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
-    end
-
-    @invoices = customer.invoices
+    @invoices = @customer.invoices
 
     @invoices = StrikeService
       .index_with_filter_for_invoice_id(@invoices.map(&:uuid), true)

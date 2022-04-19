@@ -8,14 +8,14 @@ Get basic payment processing features with no long sign up and no fees.
 
 ### Make your business
 <code>
-http POST https://sitns.herokuapp.com/businesses name='Max Energy' strike_user_handle='maxdignan' --json
+http POST https://<YOUR DOMAIN>/businesses name='Max Energy' strike_user_handle='maxdignan' --json
 </code>
 
 You'll get back your `business_secret`. **Keep this secret**.
 
 ### Make your first customer
 <code>
-http POST https://sitns.herokuapp.com/customers business_secret='YOUR_BUSINESS_SECRET_HERE' name='Max Energy Buyer' --json
+http POST https://<YOUR DOMAIN>/customers business_secret='YOUR_BUSINESS_SECRET_HERE' name='Max Energy Buyer' --json
 </code>
 
  - You'll get back your customer's secret. This isn't as secret, but keep it between just you and your customer.
@@ -23,14 +23,14 @@ http POST https://sitns.herokuapp.com/customers business_secret='YOUR_BUSINESS_S
 
 ### Make Your First Invoice for that Customer
 <code>
-http POST https://sitns.herokuapp.com/invoices business_secret='YOUR_BUSINESS_SECRET_HERE' description='Pay your first invoice pls' amount=9.10 currency='USD' customer_id=THE_ID_RETURNED_FOR_THAT_CUSTOMER --json
+http POST https://<YOUR DOMAIN>/invoices business_secret='YOUR_BUSINESS_SECRET_HERE' description='Pay your first invoice pls' amount=9.10 currency='USD' customer_id=THE_ID_RETURNED_FOR_THAT_CUSTOMER --json
 </code>
 
  - You'll get back a uuid. This is the invoiceId from Strike. Keep this handy.
 
 ### Make a Quote
 <code>
-http POST https://sitns.herokuapp.com/invoice-quote business_secret='YOUR_BUSINESS_SECRET_HERE' uuid='UUID_OR_INVOICE_ID_OF_INVOICE_OF_INTEREST' --json
+http POST https://<YOUR DOMAIN>/invoice-quote business_secret='YOUR_BUSINESS_SECRET_HERE' uuid='UUID_OR_INVOICE_ID_OF_INVOICE_OF_INTEREST' --json
 </code>
 
  - You'll get back the lnInvoice and onchain address info, if applicable. You'll also get the expiration info for the quote.
@@ -42,20 +42,20 @@ http POST https://sitns.herokuapp.com/invoice-quote business_secret='YOUR_BUSINE
 (as a business)
 
 <code>
-http GET https://sitns.herokuapp.com/invoices business_secret='YOUR_BUSINESS_SECRET_HERE'
+http GET https://<YOUR DOMAIN>/invoices business_secret='YOUR_BUSINESS_SECRET_HERE'
 </code>
 
 (as a customer)
 
 <code>
-http GET https://sitns.herokuapp.com/invoices customer_secret='YOUR_CUSTOMER_SECRET_HERE'
+http GET https://<YOUR DOMAIN>/invoices customer_secret='YOUR_CUSTOMER_SECRET_HERE'
 </code>
 
 ### Get Invoice Details by UUID
 Use the uuid of an invoice to get more info about it. Works the same as above. Send the business or the customer secret.
 
 <code>
-http GET https://sitns.herokuapp.com/invoices/i uuid='dc186f4e-0958-431e-aea0-e3b3cf2b714e' business_secret='c920ed94-014b-406e-a498-d67ca80d5e34'
+http GET https://<YOUR DOMAIN>/invoices/i uuid='dc186f4e-0958-431e-aea0-e3b3cf2b714e' business_secret='c920ed94-014b-406e-a498-d67ca80d5e34'
 </code>
 
 ### And some more...

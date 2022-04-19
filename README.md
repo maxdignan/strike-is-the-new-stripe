@@ -4,7 +4,7 @@ Haven't you heard?
 
 Get basic payment processing features with no long sign up and no fees.
 
-## Basic Usagedesolate-mesa-68729
+## Basic Usage
 
 ### Make your business
 <code>

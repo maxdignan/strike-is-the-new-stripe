@@ -140,6 +140,10 @@ class InvoicesController < WhoAmIController
     pp params['data']['changes']
     pp "after params"
 
-    render json: {}
+    uuid = params['data']['entityId']
+
+    result = Invoice.update_paid_status_from_strike_with_uuid(uuid)
+
+    render json: result
   end
 end

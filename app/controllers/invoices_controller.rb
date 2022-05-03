@@ -28,7 +28,10 @@ class InvoicesController < WhoAmIController
       raise "You need to be the business of customer of that invoice to see it"
     end
 
-    render json: StrikeService.get_invoice_by_uuid(@invoice.uuid)
+    render json: {
+      sitns_invoice: @invoice,
+      strike_invoice: StrikeService.get_invoice_by_uuid(@invoice.uuid),
+    }
   end
 
   def quote
@@ -58,30 +61,39 @@ class InvoicesController < WhoAmIController
       raise "This customer needs to be YOUR customer"
     end
 
-    invoice_from_strike = StrikeService.generate_invoice(resolve_business.strike_user_handle, {
-      description: params[:description],
-      amount: {
-        amount: params[:amount],
-        currency: params[:currency],
-      }
-    })
+    zero_priced_invoice = params[:amount].to_f == 0.00
+    uuid = 'not_created'
 
-    puts invoice_from_strike
+    if !zero_priced_invoice
+      invoice_from_strike = StrikeService.generate_invoice(resolve_business.strike_user_handle, {
+        description: params[:description],
+        amount: {
+          amount: params[:amount],
+          currency: params[:currency],
+        }
+      })
 
-    if invoice_from_strike.present? && invoice_from_strike["invoiceId"].present?
-      @invoice = Invoice.new(
-        uuid: invoice_from_strike["invoiceId"],
-        business_id: resolve_business.id,
-        customer_id: params[:customer_id],
-      )
+      puts invoice_from_strike
 
-      if @invoice.save
-        render json: @invoice, status: :created, location: @invoice
+      if !invoice_from_strike.present? || !invoice_from_strike["invoiceId"].present?
+        return render json: ["Error from strike"], status: :unprocessable_entity
       else
-        render json: @invoice.errors, status: :unprocessable_entity
+        uuid = invoice_from_strike["invoiceId"]
       end
+    end
+
+    @invoice = Invoice.new(
+      uuid: uuid, 
+      business_id: resolve_business.id,
+      customer_id: params[:customer_id],
+      amount: params[:amount],
+      paid: zero_priced_invoice, # automatically mark as paid iff zero_priced_invoice
+    )
+
+    if @invoice.save
+      render json: @invoice, status: :created, location: @invoice
     else
-      render json: ["Error from strike"], status: :unprocessable_entity
+      render json: @invoice.errors, status: :unprocessable_entity
     end
   end
 
@@ -98,13 +110,7 @@ class InvoicesController < WhoAmIController
       raise "Please login as business or customer"
     end
 
-    @invoices = @customer.invoices
-
-    @invoices = StrikeService
-      .index_with_filter_for_invoice_id(@invoices.map(&:uuid), true)
-      .sort_by{|inv| inv["created"]}
-      .reverse
-      .take(10)
+    @invoices = @customer.invoices.where(paid: false)
 
     render json: @invoices
   end
@@ -120,13 +126,17 @@ class InvoicesController < WhoAmIController
       raise "Customer with id #{params[:customer_id]} must belong to business with id #{resolve_business.id}"
     end
 
-    @invoices = customer.invoices
-
-    @invoice = StrikeService
-      .index_with_filter_for_invoice_id(@invoices.map(&:uuid), true)
-      .sort_by{|inv| inv["created"]}
-      .last
+    @invoice = customer.invoices.last
 
     render json: @invoice
+  end
+
+  def webhook_update_invoice
+
+    pp "webhook"
+    pp params
+    pp "after params"
+
+    render json: {}
   end
 end

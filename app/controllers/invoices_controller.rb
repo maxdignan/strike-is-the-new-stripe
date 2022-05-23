@@ -88,6 +88,7 @@ class InvoicesController < WhoAmIController
       customer_id: params[:customer_id],
       amount: params[:amount],
       paid: zero_priced_invoice, # automatically mark as paid iff zero_priced_invoice
+      description: params[:description],
     )
 
     if @invoice.save

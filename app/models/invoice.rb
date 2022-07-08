@@ -3,7 +3,7 @@ class Invoice < ApplicationRecord
   belongs_to :customer
 
   def self.update_paid_status_from_strike_with_uuid(uuid)
-    strike_invoice = StrikeService.get_invoice_by_uuid(@invoice.uuid)
+    strike_invoice = StrikeService.get_invoice_by_uuid(uuid)
 
     invoice = self.find_by(uuid: uuid)
 
